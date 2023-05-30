@@ -12,9 +12,18 @@ interface AuthContext {
   login?: () => void;
   tryLocalLogin?: () => void;
   register?: () => void;
+  logout?: () => void;
 }
 
-const defaultValue = {
+interface State {
+  token: string;
+  user: string;
+  profile: string;
+  errorMessage: string;
+  isLoading: boolean;
+}
+
+const defaultValue: State = {
   token: "",
   user: "",
   profile: "",
@@ -24,7 +33,7 @@ const defaultValue = {
 
 const Context = React.createContext<AuthContext>(defaultValue);
 const Provider = ({ children }: { children: ReactNode }) => {
-  const reducer = (state, action) => {
+  const reducer = (state: State, action) => {
     switch (action.type) {
       case "login":
         return {
@@ -38,7 +47,17 @@ const Provider = ({ children }: { children: ReactNode }) => {
           errorMessage: action.payload,
         };
       case "user_created":
-        return { ...state, errorMessage: "", ...action.payload };
+        return {
+          ...state,
+          ...action.payload,
+          errorMessage: "",
+        };
+      case "logout":
+        return {
+          ...state,
+          ...action.payload,
+          errorMessage: "",
+        };
       default:
         return state;
     }
@@ -107,8 +126,32 @@ const Provider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const logout = async () => {
+    try {
+      await SecureStore.deleteItemAsync("token");
+      await SecureStore.deleteItemAsync("user");
+      await SecureStore.deleteItemAsync("profile");
+
+      dispatch({
+        type: "logout",
+        payload: {
+          token: null,
+          profile: null,
+          user: null,
+        },
+      });
+    } catch (err) {
+      dispatch({
+        type: "add_error",
+        payload: "Houve um erro no logout.",
+      });
+    }
+  };
+
   return (
-    <Context.Provider value={{ ...state, login, tryLocalLogin, register }}>
+    <Context.Provider
+      value={{ ...state, login, tryLocalLogin, register, logout }}
+    >
       {children}
     </Context.Provider>
   );
