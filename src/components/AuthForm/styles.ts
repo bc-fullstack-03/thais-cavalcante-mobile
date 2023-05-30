@@ -1,0 +1,13 @@
+import { StyleSheet } from "react-native";
+
+export const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    marginTop: 48,
+  },
+  containerPosition: {
+    alignItems: "center",
+    marginTop: 0,
+    paddingBottom: 48,
+  },
+});
