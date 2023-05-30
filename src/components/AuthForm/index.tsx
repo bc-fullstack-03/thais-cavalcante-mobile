@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { useState } from "react";
 import { Image, KeyboardAvoidingView, Platform } from "react-native";
 
 import { styles } from "./styles";
@@ -13,9 +13,17 @@ import logo from "../../assets/logo.png";
 interface AuthFormProps {
   authFormTitle: string;
   submitFormButtonText: string;
+  submitFormButtonAction: (auth: Auth) => void;
 }
 
-function AuthForm({ authFormTitle, submitFormButtonText }: AuthFormProps) {
+function AuthForm({
+  authFormTitle,
+  submitFormButtonText,
+  submitFormButtonAction,
+}: AuthFormProps) {
+  const [user, setUser] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -27,7 +35,13 @@ function AuthForm({ authFormTitle, submitFormButtonText }: AuthFormProps) {
       <Input.Root>
         <Input.Icon>
           <Envelope color={THEME.COLORS.INPUT} />
-          <Input.Input placeholder="Digite seu e-mail" autoCapitalize="none" />
+          <Input.Input
+            value={user}
+            onChangeText={setUser}
+            placeholder="Digite seu usuário"
+            autoCapitalize="none"
+            autoCorrect={false}
+          />
         </Input.Icon>
       </Input.Root>
       <Spacer />
@@ -35,6 +49,8 @@ function AuthForm({ authFormTitle, submitFormButtonText }: AuthFormProps) {
         <Input.Icon>
           <Lock color={THEME.COLORS.INPUT} />
           <Input.Input
+            value={password}
+            onChangeText={setPassword}
             placeholder="Digite sua senha"
             autoCapitalize="none"
             autoCorrect={false}
@@ -43,7 +59,12 @@ function AuthForm({ authFormTitle, submitFormButtonText }: AuthFormProps) {
         </Input.Icon>
       </Input.Root>
       <Spacer />
-      <Button title={submitFormButtonText} onPress={() => {}} />
+      <Button
+        title={submitFormButtonText}
+        onPress={() => {
+          submitFormButtonAction({ user, password });
+        }}
+      />
       <Spacer />
     </KeyboardAvoidingView>
   );
