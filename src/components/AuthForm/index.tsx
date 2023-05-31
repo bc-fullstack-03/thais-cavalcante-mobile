@@ -34,7 +34,7 @@ function AuthForm({
       <Heading title="Sysmap Parrot" subtitle={authFormTitle} />
       <Input.Root>
         <Input.Icon>
-          <Envelope color={THEME.COLORS.INPUT} />
+          <Envelope color={THEME.COLORS.GRAY_MEDIUM} />
           <Input.Input
             value={user}
             onChangeText={setUser}
@@ -47,7 +47,7 @@ function AuthForm({
       <Spacer />
       <Input.Root>
         <Input.Icon>
-          <Lock color={THEME.COLORS.INPUT} />
+          <Lock color={THEME.COLORS.GRAY_MEDIUM} />
           <Input.Input
             value={password}
             onChangeText={setPassword}

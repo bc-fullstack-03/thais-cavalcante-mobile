@@ -19,7 +19,7 @@ function TextInputInput(props: TextInputInputProps) {
     <TextInput
       style={styles.input}
       {...props}
-      placeholderTextColor={THEME.COLORS.INPUT}
+      placeholderTextColor={THEME.COLORS.GRAY_MEDIUM}
     ></TextInput>
   );
 }

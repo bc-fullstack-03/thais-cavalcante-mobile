@@ -9,12 +9,12 @@ export const styles = StyleSheet.create({
     minWidth: 240,
     padding: 12,
     borderRadius: 12,
-    backgroundColor: THEME.COLORS.BACKGROUND_600,
+    backgroundColor: THEME.COLORS.GRAY_DARK,
   },
   input: {
     marginStart: 12,
     flex: 1,
-    color: THEME.COLORS.INPUT,
+    color: THEME.COLORS.GRAY_MEDIUM,
     fontFamily: THEME.FONT_FAMILY.REGULAR,
   },
 });

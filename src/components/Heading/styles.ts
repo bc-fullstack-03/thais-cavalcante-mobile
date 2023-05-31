@@ -7,13 +7,13 @@ export const styles = StyleSheet.create({
     padding: 32,
   },
   title: {
-    color: THEME.COLORS.TEXT,
+    color: THEME.COLORS.WHITE_ICE,
     fontSize: THEME.FONT_SIZE.LG,
     textAlign: "center",
     fontFamily: THEME.FONT_FAMILY.BOLD,
   },
   subtitle: {
-    color: THEME.COLORS.CAPTION_400,
+    color: THEME.COLORS.GRAY_MEDIUM,
     fontSize: THEME.FONT_SIZE.MD,
     textAlign: "center",
     fontFamily: THEME.FONT_FAMILY.REGULAR,

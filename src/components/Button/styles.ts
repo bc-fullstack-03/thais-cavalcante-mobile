@@ -3,7 +3,7 @@ import { THEME } from "../../theme";
 
 export const styles = StyleSheet.create({
   container: {
-    backgroundColor: THEME.COLORS.BUTTON,
+    backgroundColor: THEME.COLORS.CYAN,
     padding: 12,
     minWidth: 240,
     alignItems: "center",

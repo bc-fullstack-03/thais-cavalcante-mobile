@@ -1,12 +1,13 @@
 export const THEME = {
   COLORS: {
-    BACKGROUND_900: "#121214",
-    BACKGROUND_600: "#202024",
-    TEXT: "#EEEEEE",
-    INPUT: "#7C7C8A",
-    CAPTION_400: "#7C7C8A",
-    BUTTON: "#81D8F7",
-    ERROR: "red",
+    BLACK: "#121214",
+    GRAY_DARK: "#202024",
+    GRAY_MEDIUM: "#7C7C8A",
+    GRAY_LIGHT: "#E1E1E6",
+    WHITE_ICE: "#EEEEEE",
+    WHITE: "#FFFFFF",
+    CYAN: "#81D8F7",
+    RED: "red",
   },
 
   FONT_FAMILY: {

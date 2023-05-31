@@ -30,7 +30,7 @@ const AppTheme = {
   dark: true,
   colors: {
     ...DefaultTheme.colors,
-    background: THEME.COLORS.BACKGROUND_900,
+    background: THEME.COLORS.BLACK,
   },
 };
 function App() {
@@ -64,7 +64,14 @@ function App() {
       ) : (
         <Tab.Navigator
           screenOptions={{
-            tabBarStyle: { backgroundColor: THEME.COLORS.BACKGROUND_900 },
+            tabBarStyle: {
+              backgroundColor: THEME.COLORS.BLACK,
+              borderTopColor: THEME.COLORS.GRAY_MEDIUM,
+            },
+            tabBarActiveTintColor: THEME.COLORS.CYAN,
+            headerStyle: {
+              backgroundColor: THEME.COLORS.BLACK,
+            },
           }}
         >
           <Tab.Screen
