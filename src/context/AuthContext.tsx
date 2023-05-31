@@ -135,9 +135,10 @@ const Provider = ({ children }: { children: ReactNode }) => {
       dispatch({
         type: "logout",
         payload: {
-          token: null,
-          profile: null,
-          user: null,
+          token: "",
+          profile: "",
+          user: "",
+          isLoading: false,
         },
       });
     } catch (err) {
