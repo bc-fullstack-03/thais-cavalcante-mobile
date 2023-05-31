@@ -20,6 +20,7 @@ import {
 import { THEME } from "./src/theme";
 import Loading from "./src/components/Loading";
 import { House, User, UsersThree } from "phosphor-react-native";
+import { FeedProvider } from "./src/context/FeedContext";
 
 const Stack = createNativeStackNavigator();
 
@@ -103,7 +104,9 @@ function App() {
 export default () => {
   return (
     <AuthProvider>
-      <App />
+      <FeedProvider>
+        <App />
+      </FeedProvider>
     </AuthProvider>
   );
 };
