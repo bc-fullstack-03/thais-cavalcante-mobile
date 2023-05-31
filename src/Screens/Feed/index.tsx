@@ -33,7 +33,13 @@ function Feed({ navigation }) {
           />
         </View>
         {feed &&
-          feed.map((post: Post) => <PostItem post={post} key={post._id} />)}
+          feed.map((post: Post) => (
+            <PostItem
+              post={post}
+              key={post._id}
+              onPostChanged={() => getFeed(currentPage)}
+            />
+          ))}
       </ScrollView>
     </SafeAreaView>
   );

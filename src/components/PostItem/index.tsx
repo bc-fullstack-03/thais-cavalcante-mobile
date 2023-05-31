@@ -1,17 +1,31 @@
 import { useContext } from "react";
 import { UserCircle, Chat, Heart } from "phosphor-react-native";
-import { Image, Text, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { styles } from "./styles";
 import { THEME } from "../../theme";
 import { Context as AuthContext } from "../../context/AuthContext";
+import { likePost, unlikePost } from "../../services/post";
+import { getAuthHeader } from "../../services/auth";
 
 interface PostItemProps {
   post: Post;
+  onPostChanged: () => void;
 }
 
-function PostItem({ post }: PostItemProps) {
+function PostItem({ post, onPostChanged }: PostItemProps) {
   const { profile } = useContext(AuthContext);
   const isPostLiked = post.likes.includes(profile);
+
+  async function handleLikePost() {
+    const authHeader = await getAuthHeader();
+    if (isPostLiked) {
+      await unlikePost(post._id, authHeader);
+    } else {
+      await likePost(post._id, authHeader);
+    }
+
+    onPostChanged();
+  }
 
   return (
     <View style={styles.postContainer}>
@@ -32,11 +46,13 @@ function PostItem({ post }: PostItemProps) {
             <Chat size={32} color={THEME.COLORS.GRAY_LIGHT} />
             <Text style={styles.textMd}>{post.comments.length}</Text>
             <View>
-              <Heart
-                size={32}
-                weight={isPostLiked ? "fill" : "regular"}
-                color={isPostLiked ? "red" : THEME.COLORS.GRAY_LIGHT}
-              />
+              <TouchableOpacity onPress={handleLikePost}>
+                <Heart
+                  size={32}
+                  weight={isPostLiked ? "fill" : "regular"}
+                  color={isPostLiked ? "red" : THEME.COLORS.GRAY_LIGHT}
+                />
+              </TouchableOpacity>
             </View>
             <Text style={styles.textMd}>{post.likes.length}</Text>
           </View>

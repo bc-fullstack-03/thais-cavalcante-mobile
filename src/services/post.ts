@@ -8,3 +8,19 @@ export async function getPosts(page: number, authHeader: AuthHeader) {
     throw err;
   }
 }
+
+export async function likePost(postId: string, authHeader: AuthHeader) {
+  try {
+    await api.post(`/posts/${postId}/like`, null, authHeader);
+  } catch (err) {
+    alert("Erro ao curtir post");
+  }
+}
+
+export async function unlikePost(postId: string, authHeader: AuthHeader) {
+  try {
+    await api.post(`/posts/${postId}/unlike`, null, authHeader);
+  } catch (err) {
+    alert("Erro ao remover curtida do post");
+  }
+}
