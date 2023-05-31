@@ -69,9 +69,8 @@ function App() {
               borderTopColor: THEME.COLORS.GRAY_MEDIUM,
             },
             tabBarActiveTintColor: THEME.COLORS.CYAN,
-            headerStyle: {
-              backgroundColor: THEME.COLORS.BLACK,
-            },
+            tabBarShowLabel: false,
+            headerShown: false,
           }}
         >
           <Tab.Screen
@@ -82,17 +81,17 @@ function App() {
             }}
           />
           <Tab.Screen
-            name="Profile"
-            component={Profile}
-            options={{
-              tabBarIcon: ({ color }) => <User size={32} color={color} />,
-            }}
-          />
-          <Tab.Screen
             name="Friends"
             component={Friends}
             options={{
               tabBarIcon: ({ color }) => <UsersThree size={32} color={color} />,
+            }}
+          />
+          <Tab.Screen
+            name="Profile"
+            component={Profile}
+            options={{
+              tabBarIcon: ({ color }) => <User size={32} color={color} />,
             }}
           />
         </Tab.Navigator>
