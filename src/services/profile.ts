@@ -17,3 +17,11 @@ export async function getProfiles(authHeader: AuthHeader) {
     throw err;
   }
 }
+
+export async function followProfile(profileId: string, authHeader: AuthHeader) {
+  try {
+    await api.post(`/profiles/${profileId}/follow`, null, authHeader);
+  } catch (err) {
+    alert("Erro ao seguir perfil");
+  }
+}

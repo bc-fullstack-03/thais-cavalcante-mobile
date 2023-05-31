@@ -25,12 +25,21 @@ function Friends() {
     fetchProfiles();
   }, []);
 
+  async function handleFriendsChanged() {
+    await fetchProfiles();
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         data={profiles}
         keyExtractor={({ _id }) => _id}
-        renderItem={({ item }) => <ProfileItem profile={item} />}
+        renderItem={({ item }) => (
+          <ProfileItem
+            profile={item}
+            onProfileFollowed={handleFriendsChanged}
+          />
+        )}
       ></FlatList>
     </SafeAreaView>
   );
