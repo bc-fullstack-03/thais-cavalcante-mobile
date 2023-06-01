@@ -20,15 +20,18 @@ function Feed({ navigation }) {
   return (
     <SafeAreaView>
       <ScrollView>
-        <View style={styles.userContainer}>
-          <UserCircle
-            weight="light"
-            size={64}
-            color={THEME.COLORS.GRAY_LIGHT}
-          />
-          <Text style={styles.text}>@{user}</Text>
+        <View style={styles.headingContainer}>
+          <View style={styles.userContainer}>
+            <UserCircle
+              weight="light"
+              size={64}
+              color={THEME.COLORS.GRAY_LIGHT}
+            />
+            <Text style={styles.text}>@{user}</Text>
+          </View>
           <Button
             title="Novo Post"
+            style={styles.createPostButton}
             onPress={() => navigation.navigate("CreatePost")}
           />
         </View>
