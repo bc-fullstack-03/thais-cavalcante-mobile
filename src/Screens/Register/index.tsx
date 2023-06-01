@@ -14,6 +14,7 @@ function Register({ navigation }) {
         authFormTitle="Cadastre-se e comece a usar!"
         submitFormButtonText="Cadastrar"
         submitFormButtonAction={register}
+        isRegister
       />
       <TouchableOpacity
         onPress={() => {
