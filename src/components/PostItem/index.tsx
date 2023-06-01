@@ -29,16 +29,20 @@ function PostItem({ post, onPostChanged }: PostItemProps) {
 
   return (
     <View style={styles.postContainer}>
-      <View style={styles.postContentContainer}>
+      <View style={styles.postDataContainer}>
         <UserCircle size={64} weight="light" color={THEME.COLORS.GRAY_LIGHT} />
-        <View>
+        <View style={styles.postContentContainer}>
           <Text style={styles.textLg}>{post.profile.name}</Text>
           <Text style={styles.textMd}>{post.title}</Text>
           {post.image ? (
-            <Image
-              source={{ uri: post.description }}
-              style={{ width: 150, height: 150 }}
-            ></Image>
+            <View style={styles.imageContainer}>
+              <Image
+                source={{
+                  uri: post.description,
+                }}
+                style={styles.image}
+              />
+            </View>
           ) : (
             <Text style={styles.textSm}>{post.description}</Text>
           )}

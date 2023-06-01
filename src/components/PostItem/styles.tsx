@@ -6,12 +6,22 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: THEME.COLORS.GRAY_MEDIUM,
   },
-  postContentContainer: {
-    width: "80%",
+  postDataContainer: {
     padding: 10,
     display: "flex",
     flexDirection: "row",
     gap: 5,
+  },
+  postContentContainer: {
+    width: "80%",
+  },
+  imageContainer: {
+    width: "100%",
+  },
+  image: {
+    resizeMode: "cover",
+    height: 240,
+    borderRadius: 12,
   },
   textLg: {
     fontSize: THEME.FONT_SIZE.LG,
