@@ -9,7 +9,7 @@ export async function getPosts(page: number, authHeader: AuthHeader) {
   }
 }
 
-export async function likePost(postId: string, authHeader: AuthHeader) {
+export async function likePostById(postId: string, authHeader: AuthHeader) {
   try {
     await api.post(`/posts/${postId}/like`, null, authHeader);
   } catch (err) {
@@ -17,7 +17,7 @@ export async function likePost(postId: string, authHeader: AuthHeader) {
   }
 }
 
-export async function unlikePost(postId: string, authHeader: AuthHeader) {
+export async function unlikePostById(postId: string, authHeader: AuthHeader) {
   try {
     await api.post(`/posts/${postId}/unlike`, null, authHeader);
   } catch (err) {
