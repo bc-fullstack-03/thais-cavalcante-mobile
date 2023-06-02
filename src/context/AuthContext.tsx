@@ -15,15 +15,7 @@ interface AuthContext {
   logout?: () => void;
 }
 
-interface State {
-  token: string;
-  user: string;
-  profile: string;
-  errorMessage: string;
-  isLoading: boolean;
-}
-
-const defaultValue: State = {
+const defaultValue: AuthContext = {
   token: "",
   user: "",
   profile: "",
@@ -33,7 +25,7 @@ const defaultValue: State = {
 
 const Context = React.createContext<AuthContext>(defaultValue);
 const Provider = ({ children }: { children: ReactNode }) => {
-  const reducer = (state: State, action) => {
+  const reducer = (state: AuthContext, action) => {
     switch (action.type) {
       case "login":
         return {
