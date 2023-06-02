@@ -4,7 +4,7 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import { styles } from "./styles";
 import { THEME } from "../../theme";
 import { Context as AuthContext } from "../../context/AuthContext";
-import { likePost, unlikePost } from "../../services/post";
+import { Context as FeedContext } from "../../context/FeedContext";
 import { getAuthHeader } from "../../services/auth";
 
 interface PostItemProps {
@@ -14,17 +14,15 @@ interface PostItemProps {
 
 function PostItem({ post, onPostChanged }: PostItemProps) {
   const { profile } = useContext(AuthContext);
+  const { likePost, unlikePost } = useContext(FeedContext);
   const isPostLiked = post.likes.includes(profile);
 
   async function handleLikePost() {
-    const authHeader = await getAuthHeader();
     if (isPostLiked) {
-      await unlikePost(post._id, authHeader);
+      unlikePost(post._id);
     } else {
-      await likePost(post._id, authHeader);
+      likePost(post._id);
     }
-
-    onPostChanged();
   }
 
   return (

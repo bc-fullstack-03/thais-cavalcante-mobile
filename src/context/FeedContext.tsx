@@ -1,35 +1,85 @@
-import React, { createContext, useState, ReactNode } from "react";
+import React, { ReactNode, useReducer } from "react";
 import { getAuthHeader } from "../services/auth";
-import { getPosts } from "../services/post";
+import { getPosts, likePostById, unlikePostById } from "../services/post";
+import * as SecureStore from "expo-secure-store";
 
-interface FeedContextData {
+interface FeedContext {
   feed: Post[];
-  getFeed: (page?: number) => Promise<void>;
+  getFeed?: (page: number) => void;
+  likePost?: (postId: string) => void;
+  unlikePost?: (postId: string) => void;
 }
 
-interface FeedProviderProps {
-  children: ReactNode;
-}
+const defaultValue: FeedContext = {
+  feed: [],
+};
 
-const FeedContext = createContext<FeedContextData>({
-  feed: [] as Post[],
-  getFeed: async () => {},
-});
+const Context = React.createContext<FeedContext>(defaultValue);
 
-const FeedProvider: React.FC<FeedProviderProps> = ({ children }) => {
-  const [feed, setFeed] = useState<Post[]>([] as Post[]);
+const Provider = ({ children }: { children: ReactNode }) => {
+  const reducer = (state: FeedContext, action) => {
+    switch (action.type) {
+      case "show_feed":
+        return {
+          ...state,
+          feed: action.payload,
+        };
+      case "like_post":
+        const newPostsLike = state.feed;
+        const [postLiked, ..._] = newPostsLike.filter(
+          (post) => post._id == action.payload.id
+        );
+        postLiked.likes.push(action.payload.profile);
+        return {
+          feed: [...newPostsLike],
+        };
+      case "unlike_post":
+        const newPostsUnlike = state.feed;
+        const [postUnliked, ...rest] = newPostsUnlike.filter(
+          (post) => post._id == action.payload.id
+        );
+        const index = postUnliked.likes.indexOf(action.payload.profile);
+        postUnliked.likes.splice(index, 1);
+        return { feed: [...newPostsUnlike] };
+      default:
+        return state;
+    }
+  };
+
+  const [state, dispatch] = useReducer(reducer, defaultValue);
 
   const getFeed = async (page?: number) => {
-    const authHeader = await getAuthHeader();
-    const posts = await getPosts(page || 0, authHeader);
-    setFeed(posts);
+    try {
+      const authHeader = await getAuthHeader();
+      const feed = await getPosts(page || 0, authHeader);
+
+      dispatch({ type: "show_feed", payload: feed });
+    } catch (err) {}
+  };
+
+  const likePost = async (postId: string) => {
+    try {
+      const authHeader = await getAuthHeader();
+      await likePostById(postId, authHeader);
+      const profile = await SecureStore.getItemAsync("profile");
+      dispatch({ type: "like_post", payload: { id: postId, profile } });
+    } catch (err) {}
+  };
+
+  const unlikePost = async (postId: string) => {
+    try {
+      const authHeader = await getAuthHeader();
+      await unlikePostById(postId, authHeader);
+      const profile = await SecureStore.getItemAsync("profile");
+      dispatch({ type: "unlike_post", payload: { id: postId, profile } });
+    } catch (err) {}
   };
 
   return (
-    <FeedContext.Provider value={{ feed, getFeed }}>
+    <Context.Provider value={{ ...state, getFeed, likePost, unlikePost }}>
       {children}
-    </FeedContext.Provider>
+    </Context.Provider>
   );
 };
 
-export { FeedContext, FeedProvider };
+export { Provider, Context };

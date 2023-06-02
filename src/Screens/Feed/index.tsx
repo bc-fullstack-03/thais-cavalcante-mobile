@@ -5,7 +5,7 @@ import { styles } from "./styles";
 import PostItem from "../../components/PostItem";
 import { THEME } from "../../theme";
 import { Context as AuthContext } from "../../context/AuthContext";
-import { FeedContext } from "../../context/FeedContext";
+import { Context as FeedContext } from "../../context/FeedContext";
 import Button from "../../components/Button";
 
 function Feed({ navigation }) {
