@@ -2,6 +2,7 @@ import React, { ReactNode, useReducer } from "react";
 import { api } from "../services/config";
 import jwtDecode from "jwt-decode";
 import * as SecureStore from "expo-secure-store";
+import { authenticate, registerUser } from "../services/auth";
 
 interface AuthContext {
   token: string;
@@ -59,17 +60,19 @@ const Provider = ({ children }: { children: ReactNode }) => {
 
   const login = async (auth: Auth) => {
     try {
-      const { data } = await api.post("/security/login", auth);
-      const { user, profile } = jwtDecode(data.accessToken) as UserToken;
+      const authentication = await authenticate(auth);
+      const { user, profile } = jwtDecode(
+        authentication.accessToken
+      ) as UserToken;
 
-      await SecureStore.setItemAsync("token", data.accessToken);
+      await SecureStore.setItemAsync("token", authentication.accessToken);
       await SecureStore.setItemAsync("user", user);
       await SecureStore.setItemAsync("profile", profile);
 
       dispatch({
         type: "login",
         payload: {
-          token: data.accessToken,
+          token: authentication.accessToken,
           profile: profile,
           user: user,
           isLoading: false,
@@ -105,7 +108,7 @@ const Provider = ({ children }: { children: ReactNode }) => {
 
   const register = async (auth: Auth) => {
     try {
-      await api.post("/security/register", auth);
+      await registerUser(auth);
       dispatch({
         type: "user_created",
         isLoading: false,
