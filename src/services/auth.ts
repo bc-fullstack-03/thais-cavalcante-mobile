@@ -29,3 +29,13 @@ export async function registerUser(auth: Auth) {
     alert("Erro na criação do usuário.");
   }
 }
+
+export async function getProfile() {
+  const profile = await SecureStore.getItemAsync("profile");
+  return profile;
+}
+
+export async function getUser() {
+  const user = await SecureStore.getItemAsync("user");
+  return user;
+}

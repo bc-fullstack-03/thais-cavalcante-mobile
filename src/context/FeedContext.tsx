@@ -1,13 +1,22 @@
 import React, { ReactNode, useReducer } from "react";
-import { getAuthHeader } from "../services/auth";
-import { getPosts, likePostById, unlikePostById } from "../services/post";
+import { getAuthHeader, getUser } from "../services/auth";
+import { navigate } from "../RootNavigation";
+import {
+  addPost,
+  getPosts,
+  likePostById,
+  unlikePostById,
+} from "../services/post";
 import * as SecureStore from "expo-secure-store";
+import { api } from "../services/config";
 
 interface FeedContext {
   feed: Post[];
   getFeed?: (page: number) => void;
   likePost?: (postId: string) => void;
   unlikePost?: (postId: string) => void;
+  hasMorePosts?: boolean;
+  createPost?: (postData) => void;
 }
 
 const defaultValue: FeedContext = {
@@ -23,6 +32,7 @@ const Provider = ({ children }: { children: ReactNode }) => {
         return {
           ...state,
           feed: action.payload,
+          hasMorePosts: action.hasMorePosts,
         };
       case "like_post":
         const newPostsLike = state.feed;
@@ -41,6 +51,10 @@ const Provider = ({ children }: { children: ReactNode }) => {
         const index = postUnliked.likes.indexOf(action.payload.profile);
         postUnliked.likes.splice(index, 1);
         return { feed: [...newPostsUnlike] };
+      case "create_post":
+        return {
+          feed: [action.payload, ...state.feed],
+        };
       default:
         return state;
     }
@@ -48,12 +62,22 @@ const Provider = ({ children }: { children: ReactNode }) => {
 
   const [state, dispatch] = useReducer(reducer, defaultValue);
 
-  const getFeed = async (page?: number) => {
+  const getFeed = async (page: number) => {
     try {
       const authHeader = await getAuthHeader();
-      const feed = await getPosts(page || 0, authHeader);
+      let feed = [];
 
-      dispatch({ type: "show_feed", payload: feed });
+      const previousFeedSize = state.feed.length;
+
+      for (let i = 0; i <= page; i++) {
+        const posts = await getPosts(i, authHeader);
+
+        feed = [...feed, ...posts];
+      }
+
+      const hasMorePosts = feed.length > previousFeedSize;
+
+      dispatch({ type: "show_feed", payload: feed, hasMorePosts });
     } catch (err) {}
   };
 
@@ -75,8 +99,34 @@ const Provider = ({ children }: { children: ReactNode }) => {
     } catch (err) {}
   };
 
+  const createPost = async ({ title, description, image }) => {
+    try {
+      const token = await SecureStore.getItemAsync("token");
+      const user = await getUser();
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description || "");
+      formData.append("file", image);
+      const { data } = await api.post("/posts", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token} `,
+        },
+      });
+      dispatch({
+        type: "create_post",
+        payload: { ...data, profile: { name: user } },
+      });
+      navigate("Feed");
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   return (
-    <Context.Provider value={{ ...state, getFeed, likePost, unlikePost }}>
+    <Context.Provider
+      value={{ ...state, getFeed, likePost, unlikePost, createPost }}
+    >
       {children}
     </Context.Provider>
   );

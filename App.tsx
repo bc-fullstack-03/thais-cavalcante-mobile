@@ -21,6 +21,7 @@ import { THEME } from "./src/theme";
 import Loading from "./src/components/Loading";
 import { House, User, UsersThree } from "phosphor-react-native";
 import { Provider as FeedProvider } from "./src/context/FeedContext";
+import { navigationRef } from "./src/RootNavigation";
 
 const Stack = createNativeStackNavigator();
 
@@ -52,7 +53,7 @@ function App() {
   }
 
   return (
-    <NavigationContainer theme={AppTheme}>
+    <NavigationContainer theme={AppTheme} ref={navigationRef}>
       {!token ? (
         <Stack.Navigator
           screenOptions={{
