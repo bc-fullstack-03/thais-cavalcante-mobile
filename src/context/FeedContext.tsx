@@ -8,7 +8,6 @@ import {
   unlikePostById,
 } from "../services/post";
 import * as SecureStore from "expo-secure-store";
-import { api } from "../services/config";
 
 interface FeedContext {
   feed: Post[];
@@ -101,21 +100,15 @@ const Provider = ({ children }: { children: ReactNode }) => {
 
   const createPost = async ({ title, description, image }) => {
     try {
-      const token = await SecureStore.getItemAsync("token");
       const user = await getUser();
       const formData = new FormData();
       formData.append("title", title);
       formData.append("description", description || "");
       formData.append("file", image);
-      const { data } = await api.post("/posts", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token} `,
-        },
-      });
+      const post = await addPost(formData);
       dispatch({
         type: "create_post",
-        payload: { ...data, profile: { name: user } },
+        payload: { ...post, profile: { name: user } },
       });
       navigate("Feed");
     } catch (err) {
