@@ -40,3 +40,11 @@ export async function addPost(post: FormData) {
     alert("Erro ao tentar criar post");
   }
 }
+
+export async function deletePostById(id: string, authHeader: AuthHeader) {
+  try {
+    await api.delete(`/posts/${id}`, authHeader);
+  } catch (err) {
+    alert("Erro ao deletar post");
+  }
+}

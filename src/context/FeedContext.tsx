@@ -1,8 +1,9 @@
 import React, { ReactNode, useReducer } from "react";
-import { getAuthHeader, getUser } from "../services/auth";
+import { getAuthHeader, getProfile, getUser } from "../services/auth";
 import { navigate } from "../RootNavigation";
 import {
   addPost,
+  deletePostById,
   getPosts,
   likePostById,
   unlikePostById,
@@ -16,6 +17,7 @@ interface FeedContext {
   unlikePost?: (postId: string) => void;
   hasMorePosts?: boolean;
   createPost?: (postData: CreatePostRequest) => void;
+  deletePost?: (postId: string) => void;
 }
 
 const defaultValue: FeedContext = {
@@ -47,13 +49,22 @@ const Provider = ({ children }: { children: ReactNode }) => {
         const [postUnliked, ...rest] = newPostsUnlike.filter(
           (post) => post._id == action.payload.id
         );
-        const index = postUnliked.likes.indexOf(action.payload.profile);
-        postUnliked.likes.splice(index, 1);
+        const postToUnlikeIndex = postUnliked.likes.indexOf(
+          action.payload.profile
+        );
+        postUnliked.likes.splice(postToUnlikeIndex, 1);
         return { feed: [...newPostsUnlike] };
       case "create_post":
+        console.log([action.payload, ...state.feed]);
         return {
           feed: [action.payload, ...state.feed],
         };
+      case "delete_post":
+        const posts = state.feed;
+        const postToDeleteIndex = posts.filter(
+          (post) => post._id != action.payload.id
+        );
+        return { feed: postToDeleteIndex };
       default:
         return state;
     }
@@ -101,6 +112,7 @@ const Provider = ({ children }: { children: ReactNode }) => {
   const createPost = async ({ title, description, image }) => {
     try {
       const user = await getUser();
+      const profileId = await getProfile();
       const formData = new FormData();
       formData.append("title", title);
       formData.append("description", description || "");
@@ -108,7 +120,7 @@ const Provider = ({ children }: { children: ReactNode }) => {
       const post = await addPost(formData);
       dispatch({
         type: "create_post",
-        payload: { ...post, profile: { name: user } },
+        payload: { ...post, profile: { name: user, _id: profileId } },
       });
       navigate("Feed");
     } catch (err) {
@@ -116,9 +128,24 @@ const Provider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const deletePost = async (postId: string) => {
+    try {
+      const authHeader = await getAuthHeader();
+      await deletePostById(postId, authHeader);
+      dispatch({ type: "delete_post", payload: { id: postId } });
+    } catch (err) {}
+  };
+
   return (
     <Context.Provider
-      value={{ ...state, getFeed, likePost, unlikePost, createPost }}
+      value={{
+        ...state,
+        getFeed,
+        likePost,
+        unlikePost,
+        createPost,
+        deletePost,
+      }}
     >
       {children}
     </Context.Provider>

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { UserCircle, Chat, Heart } from "phosphor-react-native";
+import { UserCircle, Chat, Heart, Trash } from "phosphor-react-native";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { styles } from "./styles";
 import { THEME } from "../../theme";
@@ -12,7 +12,7 @@ interface PostItemProps {
 
 function PostItem({ post }: PostItemProps) {
   const { profile } = useContext(AuthContext);
-  const { likePost, unlikePost } = useContext(FeedContext);
+  const { likePost, unlikePost, deletePost } = useContext(FeedContext);
   const isPostLiked = post.likes.includes(profile);
 
   async function handleLikePost() {
@@ -57,6 +57,15 @@ function PostItem({ post }: PostItemProps) {
             <Text style={styles.textMd}>{post.likes.length}</Text>
           </View>
         </View>
+        {post.profile._id == profile && (
+          <TouchableOpacity onPress={() => deletePost(post._id)}>
+            <Trash
+              color={THEME.COLORS.GRAY_LIGHT}
+              size={24}
+              style={styles.trash}
+            />
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );

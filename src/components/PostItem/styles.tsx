@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     gap: 5,
   },
   postContentContainer: {
-    width: "80%",
+    width: "75%",
   },
   imageContainer: {
     width: "100%",
@@ -47,5 +47,8 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     gap: 5,
     paddingVertical: 10,
+  },
+  trash: {
+    marginTop: 15,
   },
 });
