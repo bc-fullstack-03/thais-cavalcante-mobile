@@ -1,21 +1,34 @@
 import { useState, useEffect, useContext } from "react";
-import { UserCircle } from "phosphor-react-native";
-import { View, Text, ScrollView, SafeAreaView } from "react-native";
+import { CaretCircleDown, UserCircle } from "phosphor-react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
 import { styles } from "./styles";
 import PostItem from "../../components/PostItem";
 import { THEME } from "../../theme";
 import { Context as AuthContext } from "../../context/AuthContext";
 import { Context as FeedContext } from "../../context/FeedContext";
 import Button from "../../components/Button";
+import Spacer from "../../components/Spacer";
 
 function Feed({ navigation }) {
   const { user } = useContext(AuthContext);
-  const { feed, getFeed } = useContext(FeedContext);
+  const { feed, getFeed, hasMorePosts } = useContext(FeedContext);
   const [currentPage, setCurrentPage] = useState<number>(0);
 
   useEffect(() => {
     getFeed(currentPage);
   }, []);
+
+  function handleNextPage() {
+    const nextPage = currentPage + 1;
+    setCurrentPage(nextPage);
+    getFeed(nextPage);
+  }
 
   return (
     <SafeAreaView>
@@ -36,13 +49,23 @@ function Feed({ navigation }) {
           />
         </View>
         {feed &&
-          feed.map((post: Post) => (
-            <PostItem
-              post={post}
-              key={post._id}
-              onPostChanged={() => getFeed(currentPage)}
-            />
-          ))}
+          feed.map((post: Post) => <PostItem post={post} key={post._id} />)}
+        {hasMorePosts && (
+          <>
+            <Spacer />
+            <TouchableOpacity
+              onPress={handleNextPage}
+              style={styles.loadMorePostButton}
+            >
+              <CaretCircleDown
+                size={48}
+                weight="fill"
+                color={THEME.COLORS.CYAN}
+              />
+            </TouchableOpacity>
+            <Spacer />
+          </>
+        )}
       </ScrollView>
     </SafeAreaView>
   );

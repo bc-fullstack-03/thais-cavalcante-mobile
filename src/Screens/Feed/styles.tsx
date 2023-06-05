@@ -27,4 +27,8 @@ export const styles = StyleSheet.create({
     fontSize: THEME.FONT_SIZE.LG,
     color: THEME.COLORS.WHITE_ICE,
   },
+  loadMorePostButton: {
+    display: "flex",
+    alignItems: "center",
+  },
 });

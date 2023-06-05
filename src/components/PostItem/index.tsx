@@ -5,14 +5,12 @@ import { styles } from "./styles";
 import { THEME } from "../../theme";
 import { Context as AuthContext } from "../../context/AuthContext";
 import { Context as FeedContext } from "../../context/FeedContext";
-import { getAuthHeader } from "../../services/auth";
 
 interface PostItemProps {
   post: Post;
-  onPostChanged: () => void;
 }
 
-function PostItem({ post, onPostChanged }: PostItemProps) {
+function PostItem({ post }: PostItemProps) {
   const { profile } = useContext(AuthContext);
   const { likePost, unlikePost } = useContext(FeedContext);
   const isPostLiked = post.likes.includes(profile);
@@ -26,7 +24,7 @@ function PostItem({ post, onPostChanged }: PostItemProps) {
   }
 
   return (
-    <View style={styles.postContainer}>
+    <View style={styles.postContainer} key={post._id}>
       <View style={styles.postDataContainer}>
         <UserCircle size={64} weight="light" color={THEME.COLORS.GRAY_LIGHT} />
         <View style={styles.postContentContainer}>
