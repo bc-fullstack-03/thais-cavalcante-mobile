@@ -10,3 +10,9 @@ interface Post {
   likes: string[];
   image: boolean;
 }
+
+interface CreatePostRequest {
+  title: string;
+  description: string;
+  image: ImageFile;
+}

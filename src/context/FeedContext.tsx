@@ -15,7 +15,7 @@ interface FeedContext {
   likePost?: (postId: string) => void;
   unlikePost?: (postId: string) => void;
   hasMorePosts?: boolean;
-  createPost?: (postData) => void;
+  createPost?: (postData: CreatePostRequest) => void;
 }
 
 const defaultValue: FeedContext = {
