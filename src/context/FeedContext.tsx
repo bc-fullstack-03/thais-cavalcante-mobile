@@ -3,6 +3,7 @@ import { getAuthHeader, getProfile, getUser } from "../services/auth";
 import { navigate } from "../RootNavigation";
 import {
   addPost,
+  createCommentToPost,
   deletePostById,
   getPostById,
   getPosts,
@@ -21,6 +22,7 @@ interface FeedContext {
   createPost?: (postData: CreatePostRequest) => void;
   deletePost?: (postId: string) => void;
   getPost?: (postId: string) => void;
+  createComment?: (postId: string, description: string) => void;
 }
 
 const defaultValue: FeedContext = {
@@ -80,6 +82,18 @@ const Provider = ({ children }: { children: ReactNode }) => {
         return {
           ...state,
           post: action.payload,
+        };
+      case "create_comment":
+        const feed = state.feed;
+        const [postCommented, ...__] = feed.filter(
+          (post) => post._id == action.payload.id
+        );
+        postCommented.comments.push(action.payload.comment.profile._id);
+        const newPostComment = state.post;
+        newPostComment.comments.push(action.payload.comment);
+        return {
+          feed: [...feed],
+          post: newPostComment,
         };
       default:
         return state;
@@ -161,6 +175,26 @@ const Provider = ({ children }: { children: ReactNode }) => {
     } catch (err) {}
   };
 
+  const createComment = async (postId: string, description: string) => {
+    try {
+      const user = await getUser();
+      const profileId = await getProfile();
+      const authHeader = await getAuthHeader();
+      const comment = await createCommentToPost(
+        postId,
+        description,
+        authHeader
+      );
+      dispatch({
+        type: "create_comment",
+        payload: {
+          id: postId,
+          comment: { ...comment, profile: { name: user, _id: profileId } },
+        },
+      });
+    } catch (err) {}
+  };
+
   return (
     <Context.Provider
       value={{
@@ -171,6 +205,7 @@ const Provider = ({ children }: { children: ReactNode }) => {
         createPost,
         deletePost,
         getPost,
+        createComment,
       }}
     >
       {children}

@@ -57,3 +57,22 @@ export async function getPostById(id: string, authHeader: AuthHeader) {
     throw err;
   }
 }
+
+export async function createCommentToPost(
+  postId: string,
+  commentDescription: string,
+  authHeader: AuthHeader
+) {
+  try {
+    const { data } = await api.post(
+      `/posts/${postId}/comments`,
+      {
+        description: commentDescription,
+      },
+      authHeader
+    );
+    return data;
+  } catch (err) {
+    alert("Erro ao tentar criar comentário");
+  }
+}
