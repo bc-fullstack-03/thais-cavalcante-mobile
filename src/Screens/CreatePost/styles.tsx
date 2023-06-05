@@ -20,4 +20,10 @@ export const styles = StyleSheet.create({
     color: THEME.COLORS.WHITE,
     margin: 12,
   },
+  text: {
+    textAlign: "center",
+    fontFamily: THEME.FONT_FAMILY.SEMI_BOLD,
+    fontSize: THEME.FONT_SIZE.LG,
+    color: THEME.COLORS.WHITE,
+  },
 });

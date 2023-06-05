@@ -10,6 +10,7 @@ import { Input } from "../../components/input";
 import Spacer from "../../components/Spacer";
 import Button from "../../components/Button";
 import PostImagePicker from "../../components/PostImagePicker";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 function CreatePost() {
   const { user } = useContext(AuthContext);
@@ -19,11 +20,13 @@ function CreatePost() {
   const [image, setImage] = useState<ImageFile>();
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.heading}>
         <UserCircle color={THEME.COLORS.GRAY_LIGHT} size={48} weight="thin" />
         <Text style={styles.userNameText}>{user}</Text>
       </View>
+      <Spacer />
+      <Text style={styles.text}>Criar Post</Text>
       <Spacer />
       <Input.Root>
         <Input.Input
@@ -53,7 +56,7 @@ function CreatePost() {
           createPost({ title, description, image });
         }}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
