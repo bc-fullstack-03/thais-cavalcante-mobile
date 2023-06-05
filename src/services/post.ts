@@ -48,3 +48,12 @@ export async function deletePostById(id: string, authHeader: AuthHeader) {
     alert("Erro ao deletar post");
   }
 }
+
+export async function getPostById(id: string, authHeader: AuthHeader) {
+  try {
+    const { data } = await api.get(`/posts/${id}`, authHeader);
+    return data;
+  } catch (err) {
+    throw err;
+  }
+}

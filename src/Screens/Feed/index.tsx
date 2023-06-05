@@ -51,9 +51,10 @@ function Feed({ navigation }) {
         {feed &&
           feed.map((post: Post) => (
             <TouchableOpacity
-              onPress={() => navigation.navigate("Post", { post })}
+              onPress={() => navigation.navigate("Post", { postId: post._id })}
+              key={post._id}
             >
-              <PostItem post={post} key={post._id} />
+              <PostItem post={post} />
             </TouchableOpacity>
           ))}
         {hasMorePosts && (

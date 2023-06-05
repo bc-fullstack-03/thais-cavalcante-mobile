@@ -4,6 +4,7 @@ import { navigate } from "../RootNavigation";
 import {
   addPost,
   deletePostById,
+  getPostById,
   getPosts,
   likePostById,
   unlikePostById,
@@ -12,12 +13,14 @@ import * as SecureStore from "expo-secure-store";
 
 interface FeedContext {
   feed: Post[];
+  post?: Post;
   getFeed?: (page: number) => void;
   likePost?: (postId: string) => void;
   unlikePost?: (postId: string) => void;
   hasMorePosts?: boolean;
   createPost?: (postData: CreatePostRequest) => void;
   deletePost?: (postId: string) => void;
+  getPost?: (postId: string) => void;
 }
 
 const defaultValue: FeedContext = {
@@ -41,8 +44,11 @@ const Provider = ({ children }: { children: ReactNode }) => {
           (post) => post._id == action.payload.id
         );
         postLiked.likes.push(action.payload.profile);
+        const newPostLike = state.post;
+        newPostLike.likes.push(action.payload.profile);
         return {
           feed: [...newPostsLike],
+          post: newPostLike,
         };
       case "unlike_post":
         const newPostsUnlike = state.feed;
@@ -53,18 +59,28 @@ const Provider = ({ children }: { children: ReactNode }) => {
           action.payload.profile
         );
         postUnliked.likes.splice(postToUnlikeIndex, 1);
-        return { feed: [...newPostsUnlike] };
+
+        const newPostUnlike = state.post;
+        const postUnlikeIndex = newPostUnlike.likes.indexOf(
+          action.payload.profile
+        );
+        newPostUnlike.likes.splice(postUnlikeIndex, 1);
+        return { feed: [...newPostsUnlike], post: newPostUnlike };
       case "create_post":
-        console.log([action.payload, ...state.feed]);
         return {
           feed: [action.payload, ...state.feed],
         };
       case "delete_post":
         const posts = state.feed;
-        const postToDeleteIndex = posts.filter(
+        const updatedFeed = posts.filter(
           (post) => post._id != action.payload.id
         );
-        return { feed: postToDeleteIndex };
+        return { feed: updatedFeed };
+      case "get_post":
+        return {
+          ...state,
+          post: action.payload,
+        };
       default:
         return state;
     }
@@ -136,6 +152,14 @@ const Provider = ({ children }: { children: ReactNode }) => {
     } catch (err) {}
   };
 
+  const getPost = async (postId: string) => {
+    try {
+      const authHeader = await getAuthHeader();
+      const post = await getPostById(postId, authHeader);
+      dispatch({ type: "get_post", payload: post });
+    } catch (err) {}
+  };
+
   return (
     <Context.Provider
       value={{
@@ -145,6 +169,7 @@ const Provider = ({ children }: { children: ReactNode }) => {
         unlikePost,
         createPost,
         deletePost,
+        getPost,
       }}
     >
       {children}
