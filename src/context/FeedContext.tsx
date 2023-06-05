@@ -148,6 +148,7 @@ const Provider = ({ children }: { children: ReactNode }) => {
     try {
       const authHeader = await getAuthHeader();
       await deletePostById(postId, authHeader);
+      navigate("Feed");
       dispatch({ type: "delete_post", payload: { id: postId } });
     } catch (err) {}
   };
