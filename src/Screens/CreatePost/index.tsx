@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { Text, View } from "react-native";
 import { Context as AuthContext } from "../../context/AuthContext";
-import { Context as FeedContext } from "../../context/FeedContext";
+import { Context as PostsContext } from "../../context/PostsContext";
 
 import { styles } from "./styles";
 import { UserCircle } from "phosphor-react-native";
@@ -14,7 +14,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 function CreatePost() {
   const { user } = useContext(AuthContext);
-  const { createPost } = useContext(FeedContext);
+  const { createPost } = useContext(PostsContext);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [image, setImage] = useState<ImageFile>();

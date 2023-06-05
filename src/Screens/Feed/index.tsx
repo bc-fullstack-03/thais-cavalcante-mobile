@@ -11,13 +11,13 @@ import { styles } from "./styles";
 import PostItem from "../../components/PostItem";
 import { THEME } from "../../theme";
 import { Context as AuthContext } from "../../context/AuthContext";
-import { Context as FeedContext } from "../../context/FeedContext";
+import { Context as PostsContext } from "../../context/PostsContext";
 import Button from "../../components/Button";
 import Spacer from "../../components/Spacer";
 
 function Feed({ navigation }) {
   const { user } = useContext(AuthContext);
-  const { feed, getFeed, hasMorePosts } = useContext(FeedContext);
+  const { feed, getFeed, hasMorePosts } = useContext(PostsContext);
   const [currentPage, setCurrentPage] = useState<number>(0);
 
   useEffect(() => {

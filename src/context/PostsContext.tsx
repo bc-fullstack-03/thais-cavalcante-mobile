@@ -12,7 +12,7 @@ import {
 } from "../services/post";
 import * as SecureStore from "expo-secure-store";
 
-interface FeedContext {
+interface PostsContext {
   feed: Post[];
   post?: Post;
   getFeed?: (page: number) => void;
@@ -25,14 +25,14 @@ interface FeedContext {
   createComment?: (postId: string, description: string) => void;
 }
 
-const defaultValue: FeedContext = {
+const defaultValue: PostsContext = {
   feed: [],
 };
 
-const Context = React.createContext<FeedContext>(defaultValue);
+const Context = React.createContext<PostsContext>(defaultValue);
 
 const Provider = ({ children }: { children: ReactNode }) => {
-  const reducer = (state: FeedContext, action) => {
+  const reducer = (state: PostsContext, action) => {
     switch (action.type) {
       case "show_feed":
         return {

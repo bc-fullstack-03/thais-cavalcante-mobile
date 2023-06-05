@@ -4,7 +4,7 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import { styles } from "./styles";
 import { THEME } from "../../theme";
 import { Context as AuthContext } from "../../context/AuthContext";
-import { Context as FeedContext } from "../../context/FeedContext";
+import { Context as PostsContext } from "../../context/PostsContext";
 
 interface PostItemProps {
   post: Post;
@@ -12,7 +12,7 @@ interface PostItemProps {
 
 function PostItem({ post }: PostItemProps) {
   const { profile } = useContext(AuthContext);
-  const { likePost, unlikePost, deletePost } = useContext(FeedContext);
+  const { likePost, unlikePost, deletePost } = useContext(PostsContext);
   const isPostLiked = post.likes.includes(profile);
 
   async function handleLikePost() {

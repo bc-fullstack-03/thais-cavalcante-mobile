@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
-import { Context as FeedContext } from "../../context/FeedContext";
+import { Context as PostsContext } from "../../context/PostsContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PostItem from "../../components/PostItem";
 import { useRoute } from "@react-navigation/native";
@@ -17,7 +17,7 @@ interface PostScreenRouteParams {
 function Post() {
   const route = useRoute();
   const { postId } = route.params as PostScreenRouteParams;
-  const { post, getPost, createComment } = useContext(FeedContext);
+  const { post, getPost, createComment } = useContext(PostsContext);
   const [commentDescription, setCommentDescription] = useState<string>("");
 
   useEffect(() => {
