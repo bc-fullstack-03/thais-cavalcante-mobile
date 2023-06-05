@@ -49,7 +49,13 @@ function Feed({ navigation }) {
           />
         </View>
         {feed &&
-          feed.map((post: Post) => <PostItem post={post} key={post._id} />)}
+          feed.map((post: Post) => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Post", { post })}
+            >
+              <PostItem post={post} key={post._id} />
+            </TouchableOpacity>
+          ))}
         {hasMorePosts && (
           <>
             <Spacer />
