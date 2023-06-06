@@ -30,8 +30,7 @@ function ProfileData() {
             weight="light"
             color={THEME.COLORS.GRAY_LIGHT}
           />
-          <Text style={styles.textLg}>@{user}</Text>
-          <Text style={styles.textMd}>{userProfile.name}</Text>
+          <Text style={styles.textLg}>@{userProfile.name}</Text>
           <View>
             {userProfile.followers && userProfile.followers.length > 0 && (
               <Text style={styles.textMd}>
