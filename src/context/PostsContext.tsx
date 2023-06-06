@@ -8,8 +8,10 @@ import {
   getPostById,
   getPosts,
   likePostById,
+  likePostComment,
   removeComment,
   unlikePostById,
+  unlikePostComment,
 } from "../services/post";
 import * as SecureStore from "expo-secure-store";
 
@@ -25,6 +27,8 @@ interface PostsContext {
   getPost?: (postId: string) => void;
   createComment?: (postId: string, description: string) => void;
   deleteComment?: (postId: string, commentId: string) => void;
+  likeComment?: (postId: string, commentId: string) => void;
+  unlikeComment?: (postId: string, commentId: string) => void;
 }
 
 const defaultValue: PostsContext = {
@@ -117,6 +121,44 @@ const Provider = ({ children }: { children: ReactNode }) => {
         return {
           feed: [...deleteCommentFeed],
           post: { ...post, comments: updatedComments.reverse() },
+        };
+      case "like_comment":
+        const likeCommentPost = state.post;
+        const updatedLikedPost = {
+          ...likeCommentPost,
+          comments: likeCommentPost.comments.reverse().map((comment) => {
+            if (comment._id == action.payload.commentId) {
+              return {
+                ...comment,
+                likes: [...comment.likes, action.payload.profile],
+              };
+            }
+            return comment;
+          }),
+        };
+        return {
+          feed: state.feed,
+          post: updatedLikedPost,
+        };
+      case "unlike_comment":
+        const unlikeCommentPost = state.post;
+        const updatedUnlikedPost = {
+          ...unlikeCommentPost,
+          comments: unlikeCommentPost.comments.reverse().map((comment) => {
+            if (comment._id == action.payload.commentId) {
+              return {
+                ...comment,
+                likes: comment.likes.filter(
+                  (like) => like != action.payload.profile
+                ),
+              };
+            }
+            return comment;
+          }),
+        };
+        return {
+          feed: state.feed,
+          post: updatedUnlikedPost,
         };
       default:
         return state;
@@ -226,6 +268,30 @@ const Provider = ({ children }: { children: ReactNode }) => {
     } catch (err) {}
   };
 
+  const likeComment = async (postId: string, commentId: string) => {
+    try {
+      const authHeader = await getAuthHeader();
+      await likePostComment(postId, commentId, authHeader);
+      const profile = await SecureStore.getItemAsync("profile");
+      dispatch({
+        type: "like_comment",
+        payload: { postId, commentId, profile },
+      });
+    } catch (err) {}
+  };
+
+  const unlikeComment = async (postId: string, commentId: string) => {
+    try {
+      const authHeader = await getAuthHeader();
+      await unlikePostComment(postId, commentId, authHeader);
+      const profile = await SecureStore.getItemAsync("profile");
+      dispatch({
+        type: "unlike_comment",
+        payload: { postId, commentId, profile },
+      });
+    } catch (err) {}
+  };
+
   return (
     <Context.Provider
       value={{
@@ -238,6 +304,8 @@ const Provider = ({ children }: { children: ReactNode }) => {
         getPost,
         createComment,
         deleteComment,
+        likeComment,
+        unlikeComment,
       }}
     >
       {children}

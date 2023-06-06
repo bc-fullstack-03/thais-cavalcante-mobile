@@ -12,11 +12,20 @@ interface CommentProps {
 }
 
 function Comment({ postId, comment }: CommentProps) {
-  const { deleteComment } = useContext(PostsContext);
+  const { deleteComment, likeComment, unlikeComment } =
+    useContext(PostsContext);
 
   const { profile } = useContext(AuthContext);
 
   const isCommentLiked = comment.likes.includes(profile);
+
+  async function handleLikeComment() {
+    if (isCommentLiked) {
+      unlikeComment(postId, comment._id);
+    } else {
+      likeComment(postId, comment._id);
+    }
+  }
 
   return (
     <View style={styles.commentContainer} key={comment._id}>
@@ -32,7 +41,7 @@ function Comment({ postId, comment }: CommentProps) {
             <Text style={styles.textSm}>{comment.description}</Text>
             <View style={styles.footer}>
               <View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={handleLikeComment}>
                   <Heart
                     size={32}
                     weight={isCommentLiked ? "fill" : "regular"}
