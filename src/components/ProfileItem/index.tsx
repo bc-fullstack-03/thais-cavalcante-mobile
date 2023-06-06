@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Text, View } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import { UserCircle } from "phosphor-react-native";
 import { THEME } from "../../theme";
 import Button from "../../components/Button";
@@ -8,13 +8,20 @@ import { followProfile } from "../../services/profile";
 import { Context as AuthContext } from "../../context/AuthContext";
 
 import { styles } from "./styles";
+import { NavigationProp } from "@react-navigation/native";
+import { FriendsStackParamList } from "../../Screens/Friends";
 
 interface ProfileItemProps {
   profile: Profile;
   onProfileFollowed: () => void;
+  navigation: NavigationProp<FriendsStackParamList>;
 }
 
-function ProfileItem({ profile, onProfileFollowed }: ProfileItemProps) {
+function ProfileItem({
+  profile,
+  onProfileFollowed,
+  navigation,
+}: ProfileItemProps) {
   const { profile: userProfileId } = useContext(AuthContext);
   const isProfileFollowed = profile.followers.includes(userProfileId);
 
@@ -31,10 +38,24 @@ function ProfileItem({ profile, onProfileFollowed }: ProfileItemProps) {
         <UserCircle color={THEME.COLORS.GRAY_LIGHT} weight="light" size={64} />
         <Text style={styles.profileNameText}>{profile.name}</Text>
       </View>
-      <Text style={styles.followers}>
-        {profile.followers.length} Seguidores
-      </Text>
-      <Text style={styles.following}>Seguindo {profile.following.length}</Text>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("FollowersList", { profileId: profile._id })
+        }
+      >
+        <Text style={styles.followers}>
+          {profile.followers.length} Seguidores
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("FollowingList", { profileId: profile._id })
+        }
+      >
+        <Text style={styles.following}>
+          Seguindo {profile.following.length}
+        </Text>
+      </TouchableOpacity>
       <Button
         style={isProfileFollowed ? styles.disabledButton : styles.button}
         disabled={isProfileFollowed}

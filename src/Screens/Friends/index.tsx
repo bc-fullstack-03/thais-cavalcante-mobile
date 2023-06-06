@@ -1,47 +1,28 @@
-import { useState, useEffect, useContext } from "react";
-import { SafeAreaView, FlatList, Text, View } from "react-native";
-import { getAuthHeader } from "../../services/auth";
-import { Context as AuthContext } from "../../context/AuthContext";
-import { getProfiles } from "../../services/profile";
-import ProfileItem from "../../components/ProfileItem";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { ParamListBase } from "@react-navigation/native";
+import FriendsList from "../FriendsList";
+import FollowingList from "../FollowingList";
+import FollowersList from "../FollowersList";
 
-import { styles } from "./styles";
+export type FriendsStackParamList = {
+  FriendsList: { profileId: string };
+  FollowingList: { profileId: string };
+  FollowersList: { profileId: string };
+} & ParamListBase;
+
+const Stack = createNativeStackNavigator<FriendsStackParamList>();
 
 function Friends() {
-  const { profile } = useContext(AuthContext);
-  const userProfileId = profile;
-  const [profiles, setProfiles] = useState<Profile[]>([] as Profile[]);
-
-  async function fetchProfiles() {
-    const authHeader = await getAuthHeader();
-    const allProfiles = await getProfiles(authHeader);
-    const friends = allProfiles.filter(
-      (profile: Profile) => profile._id != userProfileId
-    );
-    setProfiles(friends);
-  }
-
-  useEffect(() => {
-    fetchProfiles();
-  }, []);
-
-  async function handleFriendsChanged() {
-    await fetchProfiles();
-  }
-
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={profiles}
-        keyExtractor={({ _id }) => _id}
-        renderItem={({ item }) => (
-          <ProfileItem
-            profile={item}
-            onProfileFollowed={handleFriendsChanged}
-          />
-        )}
-      ></FlatList>
-    </SafeAreaView>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="FriendsList" component={FriendsList} />
+      <Stack.Screen name="FollowingList" component={FollowingList} />
+      <Stack.Screen name="FollowersList" component={FollowersList} />
+    </Stack.Navigator>
   );
 }
 
