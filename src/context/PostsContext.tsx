@@ -76,7 +76,7 @@ const Provider = ({ children }: { children: ReactNode }) => {
         return { feed: [...newPostsUnlike], post: newPostUnlike };
       case "create_post":
         return {
-          feed: [action.payload, ...state.feed],
+          feed: state.feed,
         };
       case "delete_post":
         const posts = state.feed;
@@ -206,16 +206,14 @@ const Provider = ({ children }: { children: ReactNode }) => {
 
   const createPost = async ({ title, description, image }) => {
     try {
-      const user = await getUser();
-      const profileId = await getProfile();
       const formData = new FormData();
       formData.append("title", title);
       formData.append("description", description || "");
       formData.append("file", image);
-      const post = await addPost(formData);
+      await addPost(formData);
+      await getFeed(0);
       dispatch({
         type: "create_post",
-        payload: { ...post, profile: { name: user, _id: profileId } },
       });
       navigate("Feed");
     } catch (err) {
