@@ -76,3 +76,15 @@ export async function createCommentToPost(
     alert("Erro ao tentar criar comentário");
   }
 }
+
+export async function removeComment(
+  postId: string,
+  commentId: string,
+  authHeader: AuthHeader
+) {
+  try {
+    await api.delete(`/posts/${postId}/comments/${commentId}`, authHeader);
+  } catch (err) {
+    alert("Erro ao deletar comentário");
+  }
+}

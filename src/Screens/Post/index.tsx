@@ -53,7 +53,11 @@ function Post() {
                   <Text style={styles.commentsHeading}>Comentários</Text>
                   <Spacer />
                   {post.comments.reverse().map((comment) => (
-                    <Comment comment={comment} key={comment._id} />
+                    <Comment
+                      comment={comment}
+                      postId={post._id}
+                      key={comment._id}
+                    />
                   ))}
                 </>
               )}

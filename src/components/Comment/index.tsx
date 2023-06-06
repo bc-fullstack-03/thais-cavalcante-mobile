@@ -4,12 +4,16 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { styles } from "./styles";
 import { THEME } from "../../theme";
 import { Context as AuthContext } from "../../context/AuthContext";
+import { Context as PostsContext } from "../../context/PostsContext";
 
 interface CommentProps {
+  postId: string;
   comment: Comment;
 }
 
-function Comment({ comment }: CommentProps) {
+function Comment({ postId, comment }: CommentProps) {
+  const { deleteComment } = useContext(PostsContext);
+
   const { profile } = useContext(AuthContext);
 
   const isCommentLiked = comment.likes.includes(profile);
@@ -40,7 +44,11 @@ function Comment({ comment }: CommentProps) {
             </View>
           </View>
           {comment.profile._id == profile && (
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity
+              onPress={() => {
+                deleteComment(postId, comment._id);
+              }}
+            >
               <Trash
                 color={THEME.COLORS.GRAY_LIGHT}
                 size={24}

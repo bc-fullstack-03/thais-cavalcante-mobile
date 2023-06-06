@@ -8,12 +8,13 @@ import {
   getPostById,
   getPosts,
   likePostById,
+  removeComment,
   unlikePostById,
 } from "../services/post";
 import * as SecureStore from "expo-secure-store";
 
 interface PostsContext {
-  feed: Post[];
+  feed?: Post[];
   post?: Post;
   getFeed?: (page: number) => void;
   likePost?: (postId: string) => void;
@@ -23,6 +24,7 @@ interface PostsContext {
   deletePost?: (postId: string) => void;
   getPost?: (postId: string) => void;
   createComment?: (postId: string, description: string) => void;
+  deleteComment?: (postId: string, commentId: string) => void;
 }
 
 const defaultValue: PostsContext = {
@@ -94,6 +96,27 @@ const Provider = ({ children }: { children: ReactNode }) => {
         return {
           feed: [...feed],
           post: newPostComment,
+        };
+      case "delete_comment":
+        const deleteCommentFeed = state.feed;
+        const [deleteCommentPost, ...___] = deleteCommentFeed.filter(
+          (post) => post._id == action.payload.postId
+        );
+        const commentToDeleteIndex = deleteCommentPost.comments.indexOf(
+          action.payload.commentId
+        );
+        deleteCommentPost.comments.splice(commentToDeleteIndex, 1);
+
+        deleteCommentPost.comments.filter(
+          (comment) => comment != action.payload.commentId
+        );
+        const post = state.post;
+        const updatedComments = post.comments.filter(
+          (comment) => comment._id != action.payload.commentId
+        );
+        return {
+          feed: [...deleteCommentFeed],
+          post: { ...post, comments: updatedComments.reverse() },
         };
       default:
         return state;
@@ -195,6 +218,14 @@ const Provider = ({ children }: { children: ReactNode }) => {
     } catch (err) {}
   };
 
+  const deleteComment = async (postId: string, commentId: string) => {
+    try {
+      const authHeader = await getAuthHeader();
+      await removeComment(postId, commentId, authHeader);
+      dispatch({ type: "delete_comment", payload: { postId, commentId } });
+    } catch (err) {}
+  };
+
   return (
     <Context.Provider
       value={{
@@ -206,6 +237,7 @@ const Provider = ({ children }: { children: ReactNode }) => {
         deletePost,
         getPost,
         createComment,
+        deleteComment,
       }}
     >
       {children}
