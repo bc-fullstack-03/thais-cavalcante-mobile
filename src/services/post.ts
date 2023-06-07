@@ -6,7 +6,7 @@ export async function getPosts(page: number, authHeader: AuthHeader) {
     const { data } = await api.get(`/feed?page=${page}`, authHeader);
     return data;
   } catch (err) {
-    throw err;
+    throw new Error(`Erro ao obter posts: ${err.message}`);
   }
 }
 
@@ -14,7 +14,7 @@ export async function likePostById(postId: string, authHeader: AuthHeader) {
   try {
     await api.post(`/posts/${postId}/like`, null, authHeader);
   } catch (err) {
-    alert("Erro ao curtir post");
+    throw new Error(`Erro ao curtir post: ${err.message}`);
   }
 }
 
@@ -22,7 +22,7 @@ export async function unlikePostById(postId: string, authHeader: AuthHeader) {
   try {
     await api.post(`/posts/${postId}/unlike`, null, authHeader);
   } catch (err) {
-    alert("Erro ao remover curtida do post");
+    throw new Error(`Erro ao remover curtida do post: ${err.message}`);
   }
 }
 
@@ -37,7 +37,7 @@ export async function addPost(post: FormData) {
     });
     return data;
   } catch (err) {
-    alert("Erro ao tentar criar post");
+    throw new Error(`Erro ao tentar criar post: ${err.message}`);
   }
 }
 
@@ -45,7 +45,7 @@ export async function deletePostById(id: string, authHeader: AuthHeader) {
   try {
     await api.delete(`/posts/${id}`, authHeader);
   } catch (err) {
-    alert("Erro ao deletar post");
+    throw new Error(`Erro ao deletar post: ${err.message}`);
   }
 }
 
@@ -54,7 +54,7 @@ export async function getPostById(id: string, authHeader: AuthHeader) {
     const { data } = await api.get(`/posts/${id}`, authHeader);
     return data;
   } catch (err) {
-    throw err;
+    throw new Error(`Erro ao obter post: ${err.message}`);
   }
 }
 
@@ -73,7 +73,7 @@ export async function createCommentToPost(
     );
     return data;
   } catch (err) {
-    alert("Erro ao tentar criar comentário");
+    throw new Error(`Erro ao tenatr criar comentário: ${err.message}`);
   }
 }
 
@@ -85,7 +85,7 @@ export async function removeComment(
   try {
     await api.delete(`/posts/${postId}/comments/${commentId}`, authHeader);
   } catch (err) {
-    alert("Erro ao deletar comentário");
+    throw new Error(`Erro ao deletar comentário: ${err.message}`);
   }
 }
 
@@ -101,7 +101,7 @@ export async function likePostComment(
       authHeader
     );
   } catch (err) {
-    alert("Erro ao curtir comentário");
+    throw new Error(`Erro ao curtir comentário: ${err.message}`);
   }
 }
 
@@ -117,6 +117,6 @@ export async function unlikePostComment(
       authHeader
     );
   } catch (err) {
-    alert("Erro ao remover curtida do comentário");
+    throw new Error(`Erro ao remover curtida do comentário: ${err.message}`);
   }
 }

@@ -17,7 +17,7 @@ export async function authenticate(auth: Auth) {
     const { data } = await api.post("/security/login", auth);
     return data;
   } catch (err) {
-    alert("Erro ao fazer login do usuário.");
+    throw new Error(`Erro ao fazer login do usuário: ${err.message}`);
   }
 }
 
@@ -26,7 +26,7 @@ export async function registerUser(auth: Auth) {
     const { data } = await api.post("/security/register", auth);
     return data;
   } catch (err) {
-    alert("Erro na criação do usuário.");
+    throw new Error(`Erro ao registrar usuário: ${err.message}`);
   }
 }
 

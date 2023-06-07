@@ -5,7 +5,7 @@ export async function updateUser(auth: Auth, authHeader: AuthHeader) {
     const { data } = await api.put("/users/me", auth, authHeader);
     return data;
   } catch (err) {
-    throw err;
+    throw new Error(`Erro ao atualizar usuário: ${err.message}`);
   }
 }
 
@@ -13,6 +13,6 @@ export async function deleteUser(authHeader: AuthHeader) {
   try {
     await api.delete("/users/me", authHeader);
   } catch (err) {
-    throw err;
+    throw new Error(`Erro ao deletar usuário: ${err.message}`);
   }
 }
