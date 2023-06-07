@@ -1,8 +1,9 @@
 import React, { ReactNode, useReducer } from "react";
-import { api } from "../services/config";
 import jwtDecode from "jwt-decode";
 import * as SecureStore from "expo-secure-store";
 import { authenticate, registerUser } from "../services/auth";
+import { Alert } from "react-native";
+import { navigate } from "../RootNavigation";
 
 interface AuthContext {
   token: string;
@@ -108,7 +109,11 @@ const Provider = ({ children }: { children: ReactNode }) => {
 
   const register = async (auth: Auth) => {
     try {
-      await registerUser(auth);
+      const user = await registerUser(auth);
+      if (user) {
+        Alert.alert("Usuário criado! Faça login para começar a usar.");
+        navigate("Login");
+      }
       dispatch({
         type: "user_created",
         isLoading: false,
