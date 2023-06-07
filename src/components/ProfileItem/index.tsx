@@ -56,12 +56,14 @@ function ProfileItem({
           Seguindo {profile.following.length}
         </Text>
       </TouchableOpacity>
-      <Button
-        style={isProfileFollowed ? styles.disabledButton : styles.button}
-        disabled={isProfileFollowed}
-        title={isProfileFollowed ? "Seguindo" : "Seguir"}
-        onPress={handlefollowProfile}
-      />
+      {profile._id != userProfileId && (
+        <Button
+          style={isProfileFollowed ? styles.disabledButton : styles.button}
+          disabled={isProfileFollowed}
+          title={isProfileFollowed ? "Seguindo" : "Seguir"}
+          onPress={handlefollowProfile}
+        />
+      )}
     </View>
   );
 }
