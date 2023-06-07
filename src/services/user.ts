@@ -8,3 +8,11 @@ export async function updateUser(auth: Auth, authHeader: AuthHeader) {
     throw err;
   }
 }
+
+export async function deleteUser(authHeader: AuthHeader) {
+  try {
+    await api.delete("/users/me", authHeader);
+  } catch (err) {
+    throw err;
+  }
+}

@@ -3,12 +3,6 @@ import { THEME } from "../../theme";
 
 export const styles = StyleSheet.create({
   container: {
-    height: "100%",
-    padding: 10,
-    display: "flex",
-    justifyContent: "space-between",
-  },
-  logoutContainer: {
     display: "flex",
     flexDirection: "row",
     gap: 4,
@@ -17,7 +11,7 @@ export const styles = StyleSheet.create({
   },
   textMd: {
     fontSize: THEME.FONT_SIZE.MD,
-    fontFamily: THEME.FONT_FAMILY.BOLD,
-    color: THEME.COLORS.WHITE,
+    fontFamily: THEME.FONT_FAMILY.SEMI_BOLD,
+    color: THEME.COLORS.WHITE_ICE,
   },
 });
