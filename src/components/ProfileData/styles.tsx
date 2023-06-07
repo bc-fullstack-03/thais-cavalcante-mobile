@@ -3,7 +3,7 @@ import { THEME } from "../../theme";
 
 export const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    paddingTop: 20,
     display: "flex",
     alignItems: "center",
     gap: 5,
@@ -20,5 +20,9 @@ export const styles = StyleSheet.create({
     fontFamily: THEME.FONT_FAMILY.SEMI_BOLD,
     color: THEME.COLORS.WHITE_ICE,
     marginBottom: 5,
+  },
+  followersContainer: {
+    flexDirection: "column",
+    alignItems: "center",
   },
 });

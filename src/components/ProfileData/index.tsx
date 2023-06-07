@@ -8,7 +8,7 @@ import { THEME } from "../../theme";
 import { styles } from "./styles";
 
 function ProfileData() {
-  const { profile, user } = useContext(AuthContext);
+  const { profile } = useContext(AuthContext);
   const [userProfile, setUserProfile] = useState<Profile>({} as Profile);
 
   async function fetchProfile() {
@@ -31,7 +31,7 @@ function ProfileData() {
             color={THEME.COLORS.GRAY_LIGHT}
           />
           <Text style={styles.textLg}>@{userProfile.name}</Text>
-          <View>
+          <View style={styles.followersContainer}>
             {userProfile.followers && userProfile.followers.length > 0 && (
               <Text style={styles.textMd}>
                 {userProfile.followers.length} Seguidores
