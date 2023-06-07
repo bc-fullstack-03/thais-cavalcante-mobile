@@ -32,7 +32,7 @@ interface PostsContext {
 }
 
 const defaultValue: PostsContext = {
-  feed: [],
+  feed: [] as Post[],
 };
 
 const Context = React.createContext<PostsContext>(defaultValue);
@@ -53,7 +53,9 @@ const Provider = ({ children }: { children: ReactNode }) => {
         );
         postLiked.likes.push(action.payload.profile);
         const newPostLike = state.post;
-        newPostLike.likes.push(action.payload.profile);
+        if (newPostLike) {
+          newPostLike.likes.push(action.payload.profile);
+        }
         return {
           feed: [...newPostsLike],
           post: newPostLike,
@@ -69,10 +71,12 @@ const Provider = ({ children }: { children: ReactNode }) => {
         postUnliked.likes.splice(postToUnlikeIndex, 1);
 
         const newPostUnlike = state.post;
-        const postUnlikeIndex = newPostUnlike.likes.indexOf(
-          action.payload.profile
-        );
-        newPostUnlike.likes.splice(postUnlikeIndex, 1);
+        if (newPostUnlike) {
+          const postUnlikeIndex = newPostUnlike.likes.indexOf(
+            action.payload.profile
+          );
+          newPostUnlike.likes.splice(postUnlikeIndex, 1);
+        }
         return { feed: [...newPostsUnlike], post: newPostUnlike };
       case "create_post":
         return {
@@ -216,9 +220,7 @@ const Provider = ({ children }: { children: ReactNode }) => {
         type: "create_post",
       });
       navigate("Feed");
-    } catch (err) {
-      console.log(err.message);
-    }
+    } catch (err) {}
   };
 
   const deletePost = async (postId: string) => {
