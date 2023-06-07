@@ -10,5 +10,6 @@ export const styles = StyleSheet.create({
     color: THEME.COLORS.WHITE,
     fontFamily: THEME.FONT_FAMILY.BOLD,
     fontSize: THEME.FONT_SIZE.LG,
+    marginBottom: 10,
   },
 });
