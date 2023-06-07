@@ -29,7 +29,7 @@
 <a name="descrição"></a>
 ## 🧾 Descrição
 
-**Projeto Frontend - Programa Trainee SysMap de Excelência Full Stack.**
+**Projeto Mobile - Programa Trainee SysMap de Excelência Full Stack.**
 
 **Objetivo:** Desenvolver uma aplicação mobile para rede social Sysmap Parrot.
 
