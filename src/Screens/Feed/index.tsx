@@ -14,6 +14,7 @@ import { Context as AuthContext } from "../../context/AuthContext";
 import { Context as PostsContext } from "../../context/PostsContext";
 import Button from "../../components/Button";
 import Spacer from "../../components/Spacer";
+import EmptyState from "../../components/EmptyState";
 
 function Feed({ navigation }) {
   const { user } = useContext(AuthContext);
@@ -72,6 +73,9 @@ function Feed({ navigation }) {
             </TouchableOpacity>
             <Spacer />
           </>
+        )}
+        {feed.length == 0 && (
+          <EmptyState message="Ainda não há postagens no seu feed." />
         )}
       </ScrollView>
     </SafeAreaView>
