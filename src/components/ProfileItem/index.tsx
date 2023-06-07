@@ -6,6 +6,7 @@ import Button from "../../components/Button";
 import { getAuthHeader } from "../../services/auth";
 import { followProfile } from "../../services/profile";
 import { Context as AuthContext } from "../../context/AuthContext";
+import { Context as PostsContext } from "../../context/PostsContext";
 
 import { styles } from "./styles";
 import { NavigationProp } from "@react-navigation/native";
@@ -22,12 +23,14 @@ function ProfileItem({
   onProfileFollowed,
   navigation,
 }: ProfileItemProps) {
+  const { getFeed } = useContext(PostsContext);
   const { profile: userProfileId } = useContext(AuthContext);
   const isProfileFollowed = profile.followers.includes(userProfileId);
 
   async function handlefollowProfile() {
     const authHeader = await getAuthHeader();
     await followProfile(profile._id, authHeader);
+    getFeed(0);
 
     onProfileFollowed();
   }
