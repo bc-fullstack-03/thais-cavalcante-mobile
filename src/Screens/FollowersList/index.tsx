@@ -6,6 +6,7 @@ import ProfileItem from "../../components/ProfileItem";
 
 import { styles } from "./styles";
 import { useRoute } from "@react-navigation/native";
+import EmptyState from "../../components/EmptyState";
 
 interface FollowersListRouteParams {
   profileId: string;
@@ -47,17 +48,22 @@ function FollowersList({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.headingText}>Seguidores de @{profile.name}</Text>
-      <FlatList
-        data={followers}
-        keyExtractor={({ _id }) => _id}
-        renderItem={({ item }) => (
-          <ProfileItem
-            profile={item}
-            onProfileFollowed={handleFriendsChanged}
-            navigation={navigation}
-          />
-        )}
-      ></FlatList>
+      {followers.length > 0 && (
+        <FlatList
+          data={followers}
+          keyExtractor={({ _id }) => _id}
+          renderItem={({ item }) => (
+            <ProfileItem
+              profile={item}
+              onProfileFollowed={handleFriendsChanged}
+              navigation={navigation}
+            />
+          )}
+        ></FlatList>
+      )}
+      {followers.length == 0 && (
+        <EmptyState message={`@${profile.name} ainda não tem seguidores.`} />
+      )}
     </SafeAreaView>
   );
 }

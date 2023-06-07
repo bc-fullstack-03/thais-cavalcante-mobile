@@ -6,6 +6,7 @@ import { getProfiles } from "../../services/profile";
 import ProfileItem from "../../components/ProfileItem";
 
 import { styles } from "./styles";
+import EmptyState from "../../components/EmptyState";
 
 function FriendsList({ navigation }) {
   const { profile } = useContext(AuthContext);
@@ -32,17 +33,22 @@ function FriendsList({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.headingText}>Amigos</Text>
-      <FlatList
-        data={profiles}
-        keyExtractor={({ _id }) => _id}
-        renderItem={({ item }) => (
-          <ProfileItem
-            profile={item}
-            onProfileFollowed={handleFriendsChanged}
-            navigation={navigation}
-          />
-        )}
-      ></FlatList>
+      {profiles.length > 0 && (
+        <FlatList
+          data={profiles}
+          keyExtractor={({ _id }) => _id}
+          renderItem={({ item }) => (
+            <ProfileItem
+              profile={item}
+              onProfileFollowed={handleFriendsChanged}
+              navigation={navigation}
+            />
+          )}
+        ></FlatList>
+      )}
+      {profiles.length == 0 && (
+        <EmptyState message="Ainda não há perfis para serem seguidos." />
+      )}
     </SafeAreaView>
   );
 }
