@@ -22,6 +22,7 @@ import Loading from "./src/components/Loading";
 import { House, User, UsersThree } from "phosphor-react-native";
 import { Provider as PostsProvider } from "./src/context/PostsContext";
 import { navigationRef } from "./src/RootNavigation";
+import { Provider as ProfilesProvider } from "./src/context/ProfilesContext";
 
 const Stack = createNativeStackNavigator();
 
@@ -106,7 +107,9 @@ export default () => {
   return (
     <AuthProvider>
       <PostsProvider>
-        <App />
+        <ProfilesProvider>
+          <App />
+        </ProfilesProvider>
       </PostsProvider>
     </AuthProvider>
   );

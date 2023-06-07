@@ -1,45 +1,38 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { View, Text } from "react-native";
-import { getAuthHeader } from "../../services/auth";
-import { getProfile } from "../../services/profile";
 import { Context as AuthContext } from "../../context/AuthContext";
+import { Context as ProfilesContext } from "../../context/ProfilesContext";
 import { UserCircle } from "phosphor-react-native";
 import { THEME } from "../../theme";
 import { styles } from "./styles";
 
 function ProfileData() {
-  const { profile } = useContext(AuthContext);
-  const [userProfile, setUserProfile] = useState<Profile>({} as Profile);
-
-  async function fetchProfile() {
-    const authHeader = await getAuthHeader();
-    const userProfile = await getProfile(profile, authHeader);
-    setUserProfile(userProfile);
-  }
+  const { profile: userProfileId, user } = useContext(AuthContext);
+  const { profile, getProfile } = useContext(ProfilesContext);
 
   useEffect(() => {
-    fetchProfile();
+    getProfile(userProfileId);
   }, []);
 
   return (
     <>
-      {userProfile && (
+      {profile && (
         <View style={styles.container}>
           <UserCircle
             size={128}
             weight="light"
             color={THEME.COLORS.GRAY_LIGHT}
           />
-          <Text style={styles.textLg}>@{userProfile.name}</Text>
+          <Text style={styles.textLg}>@{user}</Text>
           <View style={styles.followersContainer}>
-            {userProfile.followers && userProfile.followers.length > 0 && (
+            {profile.followers && profile.followers.length > 0 && (
               <Text style={styles.textMd}>
-                {userProfile.followers.length} Seguidores
+                {profile.followers.length} Seguidores
               </Text>
             )}
-            {userProfile.following && userProfile.following.length > 0 && (
+            {profile.following && profile.following.length > 0 && (
               <Text style={styles.textMd}>
-                Seguindo {userProfile.following.length}
+                Seguindo {profile.following.length}
               </Text>
             )}
           </View>
