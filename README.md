@@ -1,36 +1,156 @@
-# TypeScript Example
-
-<p>
-  <!-- iOS -->
-  <img alt="Supports Expo iOS" longdesc="Supports Expo iOS" src="https://img.shields.io/badge/iOS-4630EB.svg?style=flat-square&logo=APPLE&labelColor=999999&logoColor=fff" />
-  <!-- Android -->
-  <img alt="Supports Expo Android" longdesc="Supports Expo Android" src="https://img.shields.io/badge/Android-4630EB.svg?style=flat-square&logo=ANDROID&labelColor=A4C639&logoColor=fff" />
-  <!-- Web -->
-  <img alt="Supports Expo Web" longdesc="Supports Expo Web" src="https://img.shields.io/badge/web-4630EB.svg?style=flat-square&logo=GOOGLE-CHROME&labelColor=4285F4&logoColor=fff" />
+<p align="center">
+ <h1 align="center" style="font-size:40px">Sysmap Parrot</h2>
 </p>
 
-```sh
-npx create-react-native-app -t with-typescript
+
+<br />
+
+- [📺 Demo](#-demo)
+- [🧾 Descrição](#-descrição)
+- [📖 Features](#-features)
+- [🔧 Tech stack](#-tech-stack)
+- [🚀 Rodando o Backend](#-rodando-o-backend)
+  - [Clonando o repositório](#clonando-repositorio)
+  - [Instalando as dependências](#instalando-as-dependencias)
+  - [Rodando](#rodando)
+- [🚀 Rodando o Mobile](#-rodando-o-mobile)
+  - [Clonando o repositório](#clonando-repositorio)
+  - [Instalando as dependências](#instalando-as-dependencias)
+  - [Rodando](#rodando)
+- [👤 Desenvolvedora](#-desenvolvedora)
+
+<br />
+
+<a name="demo"></a>
+## 📺 Demo
+
+
+
+https://github.com/bc-fullstack-03/thais-cavalcante-frontend/assets/94868398/8e955195-67a6-4807-8ce5-94055ed94afb
+
+
+https://github.com/bc-fullstack-03/thais-cavalcante-frontend/assets/94868398/1cd0e278-11c0-45d6-be24-75a00ec15edb
+
+
+
+https://github.com/bc-fullstack-03/thais-cavalcante-frontend/assets/94868398/777bb275-161a-4a9c-99a6-f6b8e773f872
+
+
+
+
+![prints](https://github.com/bc-fullstack-03/thais-cavalcante-frontend/assets/94868398/ba2c2feb-eef7-44b1-8719-172a76c8e39b)
+
+
+<br />
+
+<a name="descrição"></a>
+## 🧾 Descrição
+
+**Projeto Frontend - Programa Trainee SysMap de Excelência Full Stack.**
+
+**Objetivo:** Desenvolver uma aplicação mobile para rede social Sysmap Parrot.
+
+<br />
+
+<a name="features"></a>
+## 📖 Features
+
+- Responsividade das páginas;
+- Criação Usuário;
+- Login de Usuário;
+- Detalhes do Usuário;
+- Atualizar senha de Usuário;
+- Remover Usuário;
+- Paginação de feed;
+- Criação de Post;
+- Like de Post;
+- Remover like de Post;
+- Remoção de Post;
+- Listagem de amigos;
+- Listagem de Following;
+- Listagem de Followers;
+- Seguir Perfil;
+- Criação de Comentário;
+- Remoção de Comentário;
+- Like de Comentário;
+- Remover like de Comentário.
+
+
+<br />
+
+<a name="tech-stack"></a>
+## 🔧 Tech stack
+
+- TypeScript
+- React Native
+- Axios
+- Phosphor Icons
+
+<br />
+
+<a name="rodando-o-backend"></a>
+## 🚀 Rodando o Backend
+
+Para esse projeto foi utilizado o seguinte backend:
+
+https://github.com/coe-tech/backend
+
+### Clonando o repositório
+
+```
+## SSH
+https://github.com/coe-tech/backend.git
+
+## HTTPS
+git@github.com:coe-tech/backend.git
+
+## GitHub CLI
+gh repo clone coe-tech/backend
 ```
 
-TypeScript is a superset of JavaScript which gives you static types and powerful tooling in Visual Studio Code including autocompletion and useful inline warnings for type errors.
+### Instalando as dependências
 
-## 🚀 How to use
+```
+npm install
+```
+<a name="rodando"></a>
+### Rodando
 
-#### Creating a new project
+```
+docker compose up 
+```
+<a name="rodando-o-mobile"></a>
+## 🚀 Rodando o Mobile
 
-- Install the CLI: `npm i -g expo-cli`
-- Create a project: `npx create-react-native-app -t with-typescript`
-- `cd` into the project
+### Clonando o repositório
 
-### Adding TypeScript to existing projects
+```
+## SSH
+git@github.com:bc-fullstack-03/thais-cavalcante-mobile.git
 
-- Create a blank TypeScript config: `touch tsconfig.json`
-- Run `yarn start` or `npm run start` to automatically configure TypeScript
-- Rename files to TypeScript, `.tsx` for React components and `.ts` for plain typescript files
+## HTTPS
+https://github.com/bc-fullstack-03/thais-cavalcante-mobile.git
 
-> 💡 You can disable the TypeScript setup in Expo CLI with the environment variable `EXPO_NO_TYPESCRIPT_SETUP=1 expo start`
+## GitHub CLI
+gh repo clone bc-fullstack-03/thais-cavalcante-mobile
+```
 
-## 📝 Notes
+### Instalando as dependências
 
-- [Expo TypeScript guide](https://docs.expo.dev/versions/latest/guides/typescript/)
+```
+npm install
+```
+<a name="rodando"></a>
+### Running
+
+```
+npm run dev
+```
+
+<br />
+
+<a name="desenvolvedora"></a>
+## 👤 Desenvolvedora
+
+[Thais Cavalcante](https://www.linkedin.com/in/thaispcavalcante/)
+
