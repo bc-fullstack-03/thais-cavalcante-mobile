@@ -6,6 +6,7 @@ import {
   ScrollView,
   SafeAreaView,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { styles } from "./styles";
 import PostItem from "../../components/PostItem";
@@ -20,9 +21,11 @@ function Feed({ navigation }) {
   const { user } = useContext(AuthContext);
   const { feed, getFeed, hasMorePosts } = useContext(PostsContext);
   const [currentPage, setCurrentPage] = useState<number>(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getFeed(currentPage);
+    setLoading(false);
   }, []);
 
   function handleNextPage() {
@@ -49,7 +52,13 @@ function Feed({ navigation }) {
             onPress={() => navigation.navigate("CreatePost")}
           />
         </View>
-        {feed &&
+        {loading ? (
+          <ActivityIndicator
+            style={styles.loading}
+            size="large"
+            color={THEME.COLORS.GRAY_LIGHT}
+          />
+        ) : feed.length > 0 ? (
           feed.map((post: Post) => (
             <TouchableOpacity
               onPress={() => navigation.navigate("Post", { postId: post._id })}
@@ -57,7 +66,10 @@ function Feed({ navigation }) {
             >
               <PostItem post={post} />
             </TouchableOpacity>
-          ))}
+          ))
+        ) : (
+          <EmptyState message="Ainda não há postagens no seu feed." />
+        )}
         {hasMorePosts && (
           <>
             <Spacer />
@@ -73,9 +85,6 @@ function Feed({ navigation }) {
             </TouchableOpacity>
             <Spacer />
           </>
-        )}
-        {feed.length == 0 && (
-          <EmptyState message="Ainda não há postagens no seu feed." />
         )}
       </ScrollView>
     </SafeAreaView>

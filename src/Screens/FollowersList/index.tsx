@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { SafeAreaView, FlatList, Text } from "react-native";
+import { SafeAreaView, FlatList, Text, ActivityIndicator } from "react-native";
 import { getAuthHeader } from "../../services/auth";
 import { getProfile, getProfiles } from "../../services/profile";
 import ProfileItem from "../../components/ProfileItem";
@@ -7,6 +7,7 @@ import ProfileItem from "../../components/ProfileItem";
 import { styles } from "./styles";
 import { useRoute } from "@react-navigation/native";
 import EmptyState from "../../components/EmptyState";
+import { THEME } from "../../theme";
 
 interface FollowersListRouteParams {
   profileId: string;
@@ -17,6 +18,7 @@ function FollowersList({ navigation }) {
   const { profileId } = route.params as FollowersListRouteParams;
   const [profile, setProfile] = useState<Profile>({} as Profile);
   const [followers, setFollowers] = useState<Profile[]>([] as Profile[]);
+  const [loading, setLoading] = useState(true);
 
   async function fetchProfile() {
     const authHeader = await getAuthHeader();
@@ -34,6 +36,7 @@ function FollowersList({ navigation }) {
       );
     });
     setFollowers(followers);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -48,7 +51,13 @@ function FollowersList({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.headingText}>Seguidores de @{profile.name}</Text>
-      {followers.length > 0 && (
+      {loading ? (
+        <ActivityIndicator
+          style={styles.loading}
+          size="large"
+          color={THEME.COLORS.GRAY_LIGHT}
+        />
+      ) : followers.length > 0 ? (
         <FlatList
           data={followers}
           keyExtractor={({ _id }) => _id}
@@ -60,8 +69,7 @@ function FollowersList({ navigation }) {
             />
           )}
         ></FlatList>
-      )}
-      {followers.length == 0 && (
+      ) : (
         <EmptyState message={`@${profile.name} ainda não tem seguidores.`} />
       )}
     </SafeAreaView>

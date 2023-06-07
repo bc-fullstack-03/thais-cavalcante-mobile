@@ -31,4 +31,8 @@ export const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
   },
+  loading: {
+    marginTop: 100,
+    transform: [{ scale: 3 }],
+  },
 });

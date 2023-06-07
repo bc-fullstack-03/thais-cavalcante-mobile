@@ -12,4 +12,8 @@ export const styles = StyleSheet.create({
     fontSize: THEME.FONT_SIZE.LG,
     marginBottom: 10,
   },
+  loading: {
+    marginTop: 100,
+    transform: [{ scale: 3 }],
+  },
 });

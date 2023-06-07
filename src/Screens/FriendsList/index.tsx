@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { SafeAreaView, FlatList, Text } from "react-native";
+import { SafeAreaView, FlatList, Text, ActivityIndicator } from "react-native";
 import { getAuthHeader } from "../../services/auth";
 import { Context as AuthContext } from "../../context/AuthContext";
 import { getProfiles } from "../../services/profile";
@@ -7,11 +7,13 @@ import ProfileItem from "../../components/ProfileItem";
 
 import { styles } from "./styles";
 import EmptyState from "../../components/EmptyState";
+import { THEME } from "../../theme";
 
 function FriendsList({ navigation }) {
   const { profile } = useContext(AuthContext);
   const userProfileId = profile;
   const [profiles, setProfiles] = useState<Profile[]>([] as Profile[]);
+  const [loading, setLoading] = useState(true);
 
   async function fetchProfiles() {
     const authHeader = await getAuthHeader();
@@ -20,6 +22,7 @@ function FriendsList({ navigation }) {
       (profile: Profile) => profile._id != userProfileId
     );
     setProfiles(friends);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -33,7 +36,13 @@ function FriendsList({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.headingText}>Amigos</Text>
-      {profiles.length > 0 && (
+      {loading ? (
+        <ActivityIndicator
+          style={styles.loading}
+          size="large"
+          color={THEME.COLORS.GRAY_LIGHT}
+        />
+      ) : profiles.length > 0 ? (
         <FlatList
           data={profiles}
           keyExtractor={({ _id }) => _id}
@@ -45,8 +54,7 @@ function FriendsList({ navigation }) {
             />
           )}
         ></FlatList>
-      )}
-      {profiles.length == 0 && (
+      ) : (
         <EmptyState message="Ainda não há perfis para serem seguidos." />
       )}
     </SafeAreaView>
