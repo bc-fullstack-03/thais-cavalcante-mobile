@@ -40,6 +40,8 @@ function UpdatePassword() {
     }
   }
 
+  const isButtonDisabled = newPassword == "" || repeatedNewPassword == "";
+
   return (
     <View>
       <Text style={styles.textMd}>Atualizar Senha</Text>
@@ -70,7 +72,11 @@ function UpdatePassword() {
         ></Input.Input>
       </Input.Root>
       <Spacer />
-      <Button title="Atualizar" onPress={handleUpdatePassword} />
+      <Button
+        title="Atualizar"
+        disabled={isButtonDisabled}
+        onPress={handleUpdatePassword}
+      />
     </View>
   );
 }
