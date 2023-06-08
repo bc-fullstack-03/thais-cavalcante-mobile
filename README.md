@@ -138,6 +138,10 @@ npm install
 npm run dev
 ```
 
+OBS: Lembre-se de alterar o valor da baseURL para seu endereço IP 
+![image](https://github.com/bc-fullstack-03/thais-cavalcante-mobile/assets/94868398/4270789f-9609-4399-803d-e83e9e47459d)
+
+
 <br />
 
 <a name="desenvolvedora"></a>
