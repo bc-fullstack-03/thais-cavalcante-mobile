@@ -24,6 +24,11 @@
 <a name="demo"></a>
 ## 📺 Demo
 
+
+https://github.com/bc-fullstack-03/thais-cavalcante-mobile/assets/94868398/e4d8f9bd-29e7-40c7-8c98-a51014ce4469
+
+![demo mobile](https://github.com/bc-fullstack-03/thais-cavalcante-mobile/assets/94868398/4261f2d8-ce67-4189-b9dd-92a525f21648)
+
 <br />
 
 <a name="descrição"></a>
