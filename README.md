@@ -28,6 +28,8 @@
 https://github.com/bc-fullstack-03/thais-cavalcante-mobile/assets/94868398/e4d8f9bd-29e7-40c7-8c98-a51014ce4469
 
 ![demo mobile](https://github.com/bc-fullstack-03/thais-cavalcante-mobile/assets/94868398/4261f2d8-ce67-4189-b9dd-92a525f21648)
+![demo mobile 2](https://github.com/bc-fullstack-03/thais-cavalcante-mobile/assets/94868398/b9200343-3ed5-422f-b8fd-01e7cb05fada)
+![demo mobile 3](https://github.com/bc-fullstack-03/thais-cavalcante-mobile/assets/94868398/24ef8df9-3fb7-4789-9637-bc2cf9236753)
 
 <br />
 
@@ -71,6 +73,7 @@ https://github.com/bc-fullstack-03/thais-cavalcante-mobile/assets/94868398/e4d8f
 
 - TypeScript
 - React Native
+- Expo
 - Axios
 - Phosphor Icons
 
